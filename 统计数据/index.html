@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <nav class="nav-header clearfix">
+        <div class="logo">LOGO</div>
+        <div class="items">
+            <ul>
+            </ul>
+        </div>
+        <div class="user">
+            <ul class="clearfix">
+                <li>
+                    <div>
+                        <img src="./images/user_01.png" alt="">
+                    </div>
+                    <span>&nbsp医技师：</span>
+                    <span id="username">李海洋</span>
+                </li>
+                <li>
+                    <span id="set">账户设置</span>
+                </li>
+                <li>
+                    <span id="logout">退出登录</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <nav class="nav-left">
+            <ul class="left-header">
+            </ul>
+            <ul class="left-content">
+                <li>
+                    <ul class="sublist">
+                    </ul>
+                </li>
+                <li>
+                    <ul class="sublist">
+                    </ul>
+                </li>
+                <li>
+                    <ul class="sublist">
+                    </ul>
+                </li>
+                <li>
+                    <ul class="sublist">
+                    </ul>
+                </li>
+                <li>
+                    <ul class="sublist">
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <span id="back">
+            <span>&lt</span>
+            <span>返回</span>
+        </span>
+        <div id="content">
+            <section id="charts">
+                <div id="chart1">
+                    <div class="charts-header">
+                        <span>年度同期数据对比</span>
+                        <input type="radio" name="chart1type" checked="checked" value="0"><span>病例</span>
+                        <input type="radio" name="chart1type" value="1"><span>眼别</span>
+                    </div>
+                    <div class="charts-content">
+
+                    </div>
+                </div>
+                <div id="chart2">
+                    <div class="charts-header">
+                        <span>手术眼别占比</span>
+                    </div>
+                    <div class="charts-content">
+                        
+                    </div>
+                </div>
+                <div id="chart3">
+                    <div class="charts-header">
+                        <span>手术方式占比</span>
+                    </div>
+                    <div class="charts-content">
+
+                    </div>
+                </div>
+            </section>
+            <section id="table">
+                <div id="sceen">
+                    <ul class="clearfix">
+                        <li>
+                            <span>筛选条件</span>
+                            <input type="text" id="search" placeholder="请输入门诊号或者患者姓名"></li>
+                        <li>
+                            <span>性别</span>
+                            <select name="" id="">
+                                <option value="不限" selected="selected">不限</option>
+                            </select></li>
+                        <li>
+                            <span>年龄范围</span>
+                            <select name="" id="">
+                                <option value="不限" selected="selected">不限</option>
+                            </select></li>
+                        <li>
+                            <span>病历分类</span>
+                            <select name="" id="">
+                                <option value="不限" selected="selected">不限</option>
+                            </select></li>
+                        <li>
+                            <span>病历日期</span>
+                            <select name="" id="">
+                                <option value="第四季度" selected="selected" class="select-option">第四季度</option>
+                            </select></li>
+                        <li>
+                            <span>眼别</span>
+                            <select name="" id="">
+                                <option value="不限" selected="selected">不限</option>
+                            </select></li>
+                        <li>
+                            <span>手术方式</span>
+                            <select name="" id="">
+                                <option value="不限" selected="selected">不限</option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+                <div id="table-content">
+                    <ul>
+                        <li class="patient" id="table-header">
+                            <div></div>
+                            <span>门诊号</span>
+                            <span>患者姓名</span>
+                            <span>性别</span>
+                            <span>年龄</span>
+                            <span>籍贯</span>
+                            <span>病历分类</span>
+                            <span>病历日期</span>
+                            <span>眼别</span>
+                            <span>手术方式</span>
+                        </li>
+                        <li class="patient">
+                            <input type="checkbox">
+                            <span>123</span>
+                            <span>张三</span>
+                            <span>男</span>
+                            <span>18</span>
+                            <span>黑龙江省哈尔滨市</span>
+                            <span>屈光手术</span>
+                            <span>2019/12/11</span>
+                            <span>OD</span>
+                            <span>SMILE</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="./jquery-3.4.1.min.js"></script>
+    <script src="./lib/echarts.custom.min.js"></script>
+    <script>
+        //导航栏数据
+        var navdata = [{
+            name:'病程记录',
+            arr:['二级菜单一','二级菜单二','000','000','000','000']
+        },{
+            name:'工作站管理',
+            arr:['二级菜单一','二级菜单二','111','111','111','111']
+        },{
+            name:'病案管理',
+            arr:['二级菜单一','二级菜单二','222','222','222','222']
+        },{
+            name:'模板管理',
+            arr:['二级菜单一','二级菜单二','333','333','333','333']
+        },{
+            name:'统计分析',
+            arr:['数据看板','数据统计']
+        }]
+        navdata.map(function(item,index){
+            $(".items ul").append($('<li>'+item.name+'</li>'));
+            $(".left-header").append($('<li><img src="./images/left_03.png" alt=""><span>'+item.name+'</span><img src="./images/left_05.png" alt=""></li>'));
+            item.arr.map(item2 => {
+                $(".sublist").eq(index).append($('<li><span>'+item2+'</span></li>'))
+            })
+        })
+        //初始化
+        for(var i=0;i<$(".items li").length;i++){
+            $(".items li").eq(i).attr("index",i);
+            $(".left-header img:odd").eq(i).attr("index",i);
+            $(".sublist").eq(i).attr("index",i);
+        }
+        $(".nav-left li").eq(4).addClass("itemsleft-active");
+        //上导航栏
+        $(".items li").click(function(){
+            $(this).addClass("items-active").siblings().removeClass("items-active");
+            let index = $(this).attr("index")
+            $(".nav-left li").eq(index).addClass("itemsleft-active").siblings().removeClass("itemsleft-active");
+            $(".left-content li").removeClass("sublist-active");
+        })
+        //左导航栏
+        $(".left-header").click(function(e){
+            if($(e.target).attr("index")){
+                let index = $(e.target).attr("index");
+                //top从负子导航高度到0的动画
+                let top = -$(".sublist").eq(index).height();
+                $(".left-content > li").eq(index).attr("top",top);
+                if($(".left-content > li").eq(index).hasClass("sublist-active")){
+                    $(".left-content > li").eq(index).removeClass("sublist-active");
+                }else{
+                    $(".left-content > li").eq(index).addClass("sublist-active").siblings().removeClass("sublist-active");
+                }
+            }
+        })
+        $(".sublist li").click(function(){
+            $(this).addClass("btnactive").siblings().removeClass("btnactive");
+        })
+        //data
+        var data = {
+            data1: [
+                [{
+                    name: '去年',
+                    data: [1200,1800,1670,1920,1900,2000,1700,1400,2100,1200,1900,1560],
+                },{
+                    name: '今年',
+                    data: [200,800,670,920,900,1000,700,400,100,200,900,160],
+                }],
+                [{
+                    name: '去年',
+                    data: [1600,1200,1590,1120,900,1000,1200,1400,1550,1400,1600,1220],
+                },{
+                    name: '今年',
+                    data: [600,200,590,120,100,100,200,400,550,400,600,220],
+                }]
+            ],
+            data2: [{
+                name: 'OS',
+                value: 250,
+            },{
+                name: 'OU',
+                value: 400,
+            },{
+                name: 'OD',
+                value: 350,
+            }],
+            data3: [{
+                name: '手术方式占比',
+                value: [56,63,53,40,70],
+            }],
+        };
+        //图表一
+        var data1 = data.data1[0];
+        var redrawChart1 = function (data) {
+            var data1 = data;
+            var chart1 = echarts.init($(".charts-content").eq(0).get(0));
+            //series生成器
+            function seriesCreate(data1){
+                var color = ['rgb(0,131,255)','rgb(20,212,142)'];
+                var seriesArr = [];
+                var data = data1;
+                var seriesArr = data.map(function(item,index){
+                    var itemObj = {
+                        name: item.name,
+                        type: 'line',
+                        symbol: 'circle',
+                        symbolSize: 7,
+                        lineStyle: {
+                            color: color[index],
+                        },
+                        itemStyle: {
+                            color: color[index],
+                        },
+                        data: item.data,
+                    }
+                    return itemObj;
+                })
+                return seriesArr;
+            }
+            chart1.clear();
+            chart1.setOption({
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['01月', '02月', '03月', '04月', '05月', '06月', '07月', '08月', '09月', '10月', '11月', '12月'],
+                    boundaryGap: false,
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            color: "#e9eef2",
+                        }
+                    },
+                    axisLine: {
+                        show: false,
+                    },
+                    axisTick: false,
+                    axisLabel: {
+                        margin: 15,
+                        fontSize: 14,
+                    },
+                },
+                yAxis: {
+                    name: '例',
+                    type: "value",
+                    containLabel: true,
+                    axisLine:{
+                        show: false,
+                    },
+                    axisTick: false,
+                    nameTextStyle:{
+                        fontSize: 14,
+                        align: 'right',
+                        padding: [0,8,0,0],
+                    },
+                    axisLabel:{
+                        margin: 15,
+                        fontSize: 14,
+                        //去掉千分位分隔符
+                        formatter: function(value){
+                            return value+"";
+                        },
+                    },
+                    minInterval: 500,
+                    min: 0,
+                    max: 2500,
+                },
+                grid: {
+                    show: true,
+                    width: 678,
+                    height: 281,
+                    left: "7%",
+                    borderColor: "#e9eef2",
+                },
+                tooltip: {
+                    show: false,
+                },
+                legend: {
+                    top: 25,
+                    right: 38,
+                    itemWidth: 14,
+                    itemHeight: 5,
+                    orient: 'horizontal',
+                    textStyle: {
+                        fontSize: 16,
+                    },
+                    itemGap: 47,
+                    data: [{
+                        name: "去年",
+                        icon: 'image://./images/legend_06.jpg',
+                    },{
+                        name: "今年",
+                        icon: 'image://./images/legend_08.jpg',
+                    }],
+                    formatter: function(name){
+                        var data = data1;
+                        var num=0;
+                        data.map(item =>{
+                            if(item.name == name){
+                                var arr = item.data;
+                                for(var i=0;i<arr.length;i++){
+                                    num+=arr[i];
+                                }
+                            }
+                        })
+                        return name+"   "+num+"例";
+                    }
+                },
+                series: seriesCreate(data1),
+            },true)
+        }
+        redrawChart1(data1);
+        $("input[name='chart1type']").change(function(){
+            let newdata = data.data1[$(this).val()];
+            redrawChart1(newdata);
+        })
+        //图表二
+        function data2Create(data2){
+            var color = ['rgb(94,156,241)','rgb(255,172,122)','rgb(255,122,141)'];
+            var data = data2;
+            var seriesArr = data.map(function(item,index){
+                var itemObj = {
+                    name: item.name,
+                    value: item.value,
+                    itemStyle: {
+                        color: color[index],
+                    }
+                }
+                return itemObj;
+            })
+            return seriesArr;
+        }
+        var chart2 = echarts.init($(".charts-content").eq(1).get(0));
+        chart2.setOption({
+            title: {
+                text: ''
+            },
+            tooltip: {
+                show: false,
+            },
+            legend: {
+                orient: 'horizontal',
+                bottom: 155,
+                itemGap: 64,
+                icon: 'circle',
+                data: ['OU','OD','OS'],
+                formatter: function(name){
+                    var data = this.data.data2;
+                    var targetValue;
+                    data.map(item =>{
+                        if(item.name == name){
+                            targetValue = item.value;
+                        }
+                    })
+                    return name+"    "+targetValue;
+                }
+            },
+            label:{
+                formatter: '{d}%',
+                color: 'rgb(115,124,135)',
+                fontSize: 14,
+            },
+            series: [{
+                name: '手术眼别占比',
+                type: 'pie',
+                radius: [55,75],
+                center: [208,132],
+                data: data2Create(data.data2),
+            }]
+        })
+        //图表三
+        var chart3 = echarts.init($(".charts-content").eq(2).get(0));
+        chart3.setOption({
+            title: {
+                text: ''
+            },
+            tooltip: {
+                show: false,
+            },
+            radar: {
+                shape: 'ploygon',
+                center: [226.5,167.5],
+                radius: 75,
+                splitNumber: 3,
+                name: {
+                    color: '#000',
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgb(0,152,255)',
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: 'rgb(0,152,255)',
+                    }
+                },
+                splitArea: {
+                    show: false,
+                },
+                indicator: [
+                    { name: 'SMILE', max: 100},
+                    { name: 'ICL', max: 100},
+                    { name: 'SBK', max: 100},
+                    { name: 'LASIK', max: 100},
+                    { name: 'FS-LASIK', max: 100},
+                ],
+            },
+            series: [{
+                name: '占比',
+                type: 'radar',
+                symbol: 'none',
+                itemStyle: {
+                    normal: {
+                        color: 'rgb(0,152,255)',
+                        lineStyle: {
+                            color: 'rgb(0,152,255)',
+                        },
+                        areaStyle: {
+                            color: 'rgb(0,152,255)',
+                            opacity: 1,
+                        }
+                    }
+                },
+                data: data.data3,
+            }]
+        })
+    </script>
+</body>
+</html>

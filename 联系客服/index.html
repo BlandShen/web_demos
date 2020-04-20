@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <div id="contact">
+        <div id="header">
+            <div></div>
+            <nav>
+                <div id="back"><span>&lt</span></div>
+                <span>联系客服</span>
+                <img src="./images/close.png" alt="">
+                <span>···</span>
+            </nav>
+        </div>
+        <div id="content">
+            <div>
+                <img src="./images/1.png" alt="">
+            </div>
+            <div>
+                <img src="./images/contact_07.png" alt="">
+                <div class="txt">
+                    <span>旺旺在线</span><br>
+                    <span>快速连线，极速响应</span>
+                </div>
+                <button id="wangwang-btn">在线咨询</button>
+            </div>
+            <div>
+                <img src="./images/contact_11.png" alt="">
+                <div class="txt">
+                    <span>微信在线</span><br>
+                    <span>识别二维码，添加微信</span>
+                </div>
+                <button id="wechat-btn">微信咨询</button>
+            </div>
+            <div id="wechat">
+                <div>
+                    <div>
+                        <img src="./images/head_03.png" alt="">
+                        <div class="txt">
+                            <span>在线客服</span><br>
+                            <span>周一至周日 8: 30～22: 30</span><br>
+                            <span>周末及节假日 9: 00～18: 00</span><br>   
+                        </div>
+                        <button>添加微信</button>
+                    </div>
+                    <span>功能使用 ｜ 投诉 ｜合作 ｜ 会员问题请找我</span>
+                </div>
+                <div>
+                    <img src="./images/head_06.png" alt="">
+                    <div class="txt">
+                        <span>产品经理</span><br>
+                        <span>周一至周五 8: 30～17: 30</span><br>
+                        <span>软件需求 ｜ 建议请找我</span>
+                    </div>
+                    <button>添加微信</button>
+                </div>
+                <div>
+                    <img src="./images/head_08.png" alt="">
+                    <div class="txt">
+                        <span>技术经理</span><br>
+                        <span>周一至周五 8: 30～17: 30</span><br>
+                        <span>软件故障BUG请找我</span>
+                    </div>
+                    <button>添加微信</button>
+                </div>
+            </div>
+        </div>
+        <div id="rest" class="active">
+            <div class="rest-content">
+                <div>
+                    <img src="" alt="" class="r-headimg">
+                    <p><span class="mname"></span>休息中</p>
+                    <p>请您在<span class="time">周一至周五 8: 30～17: 30</span>联系我</p>
+                </div>
+                <img src="./images/close.png" class="r-close"></img>
+            </div>
+        </div>
+        <div id="qrcode" class="active">
+            <div class="qr-content">
+                <div>
+                    <div>
+                        <img src="" alt="" class="headimg">
+                        <span class="mname"></span>
+                        <span>请保存二维码到微信中添加他吧～</span>
+                    </div>
+                </div>
+                <img src="./images/close.png" class="close"></img>
+                <div>
+                    <img src="" alt="" class="qrimg">
+                    <span>长按图片保存二维码</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script>
+        //初始化
+        var nameArr = ['cs','pm','tm'];
+        for(var i=0;i<$("#wechat button").length;i++){
+            $("#wechat button").eq(i).val(nameArr[i]);
+        }
+        var date;
+        var day;
+        var hour;
+        var minute;
+        var flag = false;
+        setInterval(function(){
+            date = new Date();
+            day = date.getDay();
+            hour = date.getHours();
+            minute = date.getMinutes();
+            if(day>=1&&day<=5 && 8<hour&&hour<17){
+                flag = true;
+            }else if(day>=1&&day<=5 && hour==8 && minute>=30){
+                flag = true;
+            }else if(day>=1&&day<=5 && hour==17 &&minute<=30){
+                flag = true;
+            }else{
+                flag = false;
+            }
+            if(!flag){
+                for(var i=1;i<=2;i++){
+                    $("#wechat button").eq(i).html("休息中");
+                    $("#wechat button").eq(i).css("background-color","rgb(207,207,207)");
+                }
+            }else{
+                for(var i=1;i<=2;i++){
+                    $("#wechat button").eq(i).html("添加微信");
+                    $("#wechat button").eq(i).css("background-color","rgb(254,58,82)");
+                }
+            }
+        },1000)
+        //微信咨询
+        $("#wechat-btn").on("touchstart",function(){
+            if($("#content > div:nth-child(4)").css("display")==="flex"){
+                $("#content > div:nth-child(4)").css("display","none");
+            }else{
+                $("#content > div:nth-child(4)").css("display","flex");
+            }
+        })
+        //添加微信
+        var contactObj = {
+            cs:['在线客服','./images/head_03.png','./images/cs.png'],
+            pm:['产品经理','./images/pm_01.png','./images/pm.png'],
+            tm:['技术经理','./images/tm_03.png','./images/tm.png'],
+        }
+        $("#wechat").on("touchstart",function(e){
+            if(e.target.tagName=="BUTTON"){
+                var data = contactObj[$(e.target).val()];
+                if(flag||$(e.target).val()=="cs"){
+                    $("#qrcode").css("display","block");
+                    $(".mname").html(data[0]);
+                    $(".headimg").attr("src",data[1]);
+                    $(".qrimg").attr("src",data[2]);
+                }else{
+                    $("#rest").css("display","block");
+                    $(".mname").html(data[0]);
+                    $(".r-headimg").attr("src",data[1]);
+                }
+            }
+        })
+        //关闭按钮
+        $(".close").on("touchstart",function(){
+            $("#qrcode").css("display","none");
+        })
+        $(".r-close").on("touchstart",function(){
+            $("#rest").css("display","none");
+        })
+    </script>
+</body>
+</html>
